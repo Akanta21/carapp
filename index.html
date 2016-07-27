@@ -1,0 +1,49 @@
+<!doctype html>
+<html ng-app="carApp">
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+  <script src="carapp.js"></script>
+  <link rel="stylesheet" href="carapp.css">
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+    </head>
+    <body>
+      <h2>Cars</h2>
+      <div ng-controller="CarController as carList">
+        <span>{{carList.remaining()}} of {{ carList.cars.length}} remaining</span>
+        [ <a href="" ng-click="carList.archive()">archive</a> ]
+        <table>
+          <tr>
+            <th>Model</th>
+            <th>Price</th>
+            <th>Sold</th>
+          </tr>
+          <tr ng-repeat="car in carList.cars">
+            <td>{{car.type}}</td>
+            <td>{{car.price | currency}}</td>
+            <td>{{car.sold}}</td>
+            <td>
+              <button ng-click="carList.cars[$index].display = !carList.cars[$index].display">Edit</button>
+              <button ng-click="carList.deleteCar($index)">Delete</button>
+            </td>
+            <td>
+              <form class="form-horizontal" ng-show="carList.cars[$index].display" ng-submit="carList.updateCar($index)">
+                <input type="text" ng-model="carList.carUpdateType"  size="30"
+                placeholder="update a new model here">
+                <input type="number" ng-model="carList.carUpdatePrice"  size="30"
+                placeholder="update the price here">
+                <input class="btn-primary" type="submit" value="update">
+              </form>
+            </td>
+          </tr>
+        </table>
+        <form class="form-horizontal" ng-submit="carList.addCar()">
+          <input type="text" ng-model="carList.carType"  size="30"
+          placeholder="add new car model here">
+          <input type="number" ng-model="carList.carPrice"  size="30"
+          placeholder="add new car price here">
+          <input class="btn-primary" type="submit" value="add">
+        </form>
+      </div>
+    </body>
+    </html>
